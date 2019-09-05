@@ -16,5 +16,10 @@ router.post("/",(req,res) => {
     })
   })
 })
+//verify the token send from client side
+var validateToken = jwt.verify()
+//handling protected route by verify form jwt
+router.get("/private",validateToken,(req,res,next) => {
 
+})
 module.exports = router;
