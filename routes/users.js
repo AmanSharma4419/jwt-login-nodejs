@@ -1,25 +1,27 @@
 var express = require('express');
 var router = express.Router();
+//require the auth
+var auth = require("../modules/auth");
 //requring the jwt token
-var jwt = require("jsonwebtoken");
-//requring the model 
 var UserModel = require("../model/users")
 //handling the route for login
-router.post("/",(req,res) => {
+router.post("/",(req,res,next) => {
   var password = req.body.password;
   UserModel.findOne({email:req.body.email},(err,user) => {
     if(err) return next(err);
-    if(!user) res.send("user not found");
-    if(!user.confirmPassword(password)) res.send("no user");
-    jwt.sign({userid: user.id},"abcdef",(err,token) => {
-      res.json(token)
-    })
+    if(!user) res.send("userNotFound");
+    if(!user.confirmPassword(password)) res.send("noUser");
+    var token = auth.generateToken({userid: user._id})
+    res.json({token})
   })
 })
-//verify the token send from client side
-var validateToken = jwt.verify()
-//handling protected route by verify form jwt
-router.get("/private",validateToken,(req,res,next) => {
-
+//protected route
+router.get("/users",auth.verifyToken,(req,res) => {
+ UserModel.find({},(err,users) => {
+   if(err) res.json({Eoor:ErrorFounded})
+   res.json({users:users})
+ })
 })
+
+//exporting the model
 module.exports = router;

@@ -6,9 +6,8 @@ var UserModel = require("../model/users")
 router.post("/",(req,res) => {
   UserModel.create(req.body,(err,user) => {
     if(err) console.log("error while saving into database");
-    res.send("saved into database")
+    res.json(user)
   })
 })
-
 //exporting the router
 module.exports = router;

@@ -10,6 +10,7 @@ var userSchema = new schema ({
     email: {
         type: String,
         required : true,
+        unique : true,
     },
     password: {
         type: String,
@@ -30,4 +31,4 @@ userSchema.methods.confirmPassword = function(password) {
 //making the model of password
 var User = mongoose.model("User",userSchema);
 //exporting the model of schema
-module.exports = User
+module.exports = User;
