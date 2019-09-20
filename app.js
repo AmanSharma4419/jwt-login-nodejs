@@ -1,3 +1,4 @@
+// All Requries
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -11,7 +12,7 @@ mongoose.connect("mongodb://localhost/userData",{useNewUrlParser:true},(err) => 
 });
 var registerRouter = require('./routes/index');
 var loginRouter = require('./routes/users');
-
+// Mounting The express application
 var app = express();
 
 // view engine setup
@@ -23,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+// Handling The Routes path
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 
@@ -42,5 +43,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+// Exporting The app file
 module.exports = app;
